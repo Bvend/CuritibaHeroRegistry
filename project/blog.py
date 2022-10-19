@@ -11,4 +11,10 @@ bp = Blueprint('blog', __name__)
 
 @bp.route('/')
 def index():
-    return render_template('blog/index.html')
+    db = get_db()
+    users = db.execute(
+        'SELECT id, username'
+        ' FROM user '
+        ' ORDER BY id'
+    ).fetchall()
+    return render_template('blog/index.html', users = users)
