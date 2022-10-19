@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit {{ g.user['username'] }} (Id: {{ g.user['id'] }}) {% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" value="{{ request.form['username'] or g.user['username'] }}" required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+    <input type="submit" value="Save">
+    </form>
+    <hr>
+
+    <form action="{{ url_for('auth.delete', id=g.user['id']) }}" method="post">
+      <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+    </form>
+
+{% endblock %}

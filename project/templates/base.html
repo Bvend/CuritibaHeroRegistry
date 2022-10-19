@@ -8,6 +8,7 @@
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
+      <li><a class="action" href="{{ url_for('auth.update', id=g.user['id']) }}">Editar Registro</a>
       <li><a href="{{ url_for('auth.logout') }}">Fazer Log Out</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Registrar</a>

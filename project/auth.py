@@ -32,12 +32,16 @@ def register():
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:
-                return redirect(url_for("auth.login"))
+                session.clear()
+                user = db.execute(
+                            'SELECT * FROM user WHERE username = ?', (username,)
+                        ).fetchone()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
 
         flash(error)
 
     return render_template('auth/register.html')
-
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
@@ -82,7 +86,6 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -92,3 +95,36 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@login_required
+def update(id):
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        error = None
+
+        if not username:
+            error = 'Username is required.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'UPDATE user SET username = ?, password= ?'
+                ' WHERE id = ?',
+                (username, generate_password_hash(password), id)
+            )
+            db.commit()
+            return redirect(url_for('blog.index'))
+
+    return render_template('auth/update.html')
+
+@bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id):
+    db = get_db()
+    db.execute('DELETE FROM user WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('blog.index'))
