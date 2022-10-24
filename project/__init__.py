@@ -4,6 +4,10 @@ from flask import Flask
 
 from project.DbManager import DbManager
 
+from project.AuthenticationManager import AuthenticationManager
+
+from project.BlogManager import BlogManager
+
 # comment
 
 def create_app(test_config=None):
@@ -31,10 +35,10 @@ def create_app(test_config=None):
     DbManager.init_app(app)
 
     from . import AuthenticationManager
-    app.register_blueprint(AuthenticationManager.bp)
+    app.register_blueprint(AuthenticationManager.getBluePrint(AuthenticationManager))
 
-    from . import blog
-    app.register_blueprint(blog.bp)
+    from . import BlogManager
+    app.register_blueprint(BlogManager.getBluePrint(BlogManager))
     app.add_url_rule('/', endpoint='index')
     
     return app

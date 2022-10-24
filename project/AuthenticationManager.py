@@ -7,9 +7,14 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from project.DbManager import DbManager
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
-
 class AuthenticationManager:
+
+    bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+    @staticmethod
+    def getBluePrint(self):
+        return self.bp
+
     @bp.route('/register', methods=('GET', 'POST'))
     def register():
         if request.method == 'POST':
