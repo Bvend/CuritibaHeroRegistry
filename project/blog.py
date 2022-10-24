@@ -3,15 +3,14 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from project.AuthenticationManager import AuthenticationManager
-from project.db import get_db
+from project.DbManager import DbManager
 
 bp = Blueprint('blog', __name__)
 
 
 @bp.route('/')
 def index():
-    db = get_db()
+    db = DbManager.get_db()
     users = db.execute(
         'SELECT id, username'
         ' FROM user '

@@ -2,6 +2,8 @@ import os
 
 from flask import Flask
 
+from project.DbManager import DbManager
+
 # comment
 
 def create_app(test_config=None):
@@ -25,8 +27,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import db
-    db.init_app(app)
+    #from . import db
+    DbManager.init_app(app)
 
     from . import AuthenticationManager
     app.register_blueprint(AuthenticationManager.bp)

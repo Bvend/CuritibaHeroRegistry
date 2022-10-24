@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from project.db import get_db
+from project.DbManager import DbManager
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -15,7 +15,7 @@ class AuthenticationManager:
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
-            db = get_db()
+            db = DbManager.get_db()
             error = None
 
             if not username:
@@ -48,7 +48,7 @@ class AuthenticationManager:
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
-            db = get_db()
+            db = DbManager.get_db()
             error = None
             user = db.execute(
                 'SELECT * FROM user WHERE username = ?', (username,)
@@ -75,7 +75,7 @@ class AuthenticationManager:
         if user_id is None:
             g.user = None
         else:
-            g.user = get_db().execute(
+            g.user = DbManager.get_db().execute(
                 'SELECT * FROM user WHERE id = ?', (user_id,)
             ).fetchone()
 
@@ -109,7 +109,7 @@ class AuthenticationManager:
             if error is not None:
                 flash(error)
             else:
-                db = get_db()
+                db = DbManager.get_db()
                 db.execute(
                     'UPDATE user SET username = ?, password= ?'
                     ' WHERE id = ?',
@@ -123,7 +123,7 @@ class AuthenticationManager:
     @bp.route('/<int:id>/delete', methods=('POST',))
     @login_required
     def delete(id):
-        db = get_db()
+        db = DbManager.get_db()
         db.execute('DELETE FROM user WHERE id = ?', (id,))
         db.commit()
         return redirect(url_for('blog.index'))
