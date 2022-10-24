@@ -9,10 +9,6 @@ class BlogManager:
 
     bp = Blueprint('blog', __name__)
 
-    @staticmethod
-    def getBluePrint(self):
-        return self.bp
-
     @bp.route('/')
     def index():
         db = DbManager.get_db()

@@ -35,10 +35,10 @@ def create_app(test_config=None):
     DbManager.init_app(app)
 
     from . import AuthenticationManager
-    app.register_blueprint(AuthenticationManager.getBluePrint(AuthenticationManager))
+    app.register_blueprint(AuthenticationManager.bp)
 
     from . import BlogManager
-    app.register_blueprint(BlogManager.getBluePrint(BlogManager))
+    app.register_blueprint(BlogManager.bp)
     app.add_url_rule('/', endpoint='index')
     
     return app
