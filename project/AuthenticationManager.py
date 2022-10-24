@@ -16,6 +16,7 @@ class AuthenticationManager:
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
+            captcha = request.form['captcha']
             db = DbManager.get_db()
             error = None
 
@@ -23,6 +24,8 @@ class AuthenticationManager:
                 error = 'Username is required.'
             elif not password:
                 error = 'Password is required.'
+            elif not captcha:
+                error = 'Captcha is required'
 
             if error is None:
                 try:
@@ -44,6 +47,7 @@ class AuthenticationManager:
             flash(error)
 
         return render_template('auth/register.html')
+
     @bp.route('/login', methods=('GET', 'POST'))
     def login():
         if request.method == 'POST':
@@ -80,17 +84,16 @@ class AuthenticationManager:
                 'SELECT * FROM user WHERE id = ?', (user_id,)
             ).fetchone()
 
-
     @bp.route('/logout')
     def logout():
         session.clear()
-        return redirect(url_for('index'))
+        return redirect(url_for('blog.home'))
 
     def login_required(view):
         @functools.wraps(view)
         def wrapped_view(**kwargs):
             if g.user is None:
-                return redirect(url_for('auth.login'))
+                return redirect(url_for('blog.home'))
 
             return view(**kwargs)
 
@@ -127,4 +130,4 @@ class AuthenticationManager:
         db = DbManager.get_db()
         db.execute('DELETE FROM user WHERE id = ?', (id,))
         db.commit()
-        return redirect(url_for('blog.index'))
+        return redirect(url_for('blog.home'))
