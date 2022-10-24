@@ -9,8 +9,6 @@ class PersonList:
     
     def __init__(self):
         self.personList = self.updateDB()
-
-        print("Deu certo")
     
     def updateDB(self):
         db = DbManager.get_db()

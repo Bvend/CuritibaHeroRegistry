@@ -9,8 +9,6 @@ class Main:
 
         self.initializeFlask()
 
-        self.createLists()
-
     def initializeFlask(self):
         flag = input("Qual o sistema operacional? [W]/[L] \n")
 
@@ -20,9 +18,5 @@ class Main:
         else:
             os.system("flask --app project init-db")
             os.system("flask --app project --debug run")
-
-    def createLists(self):
-        print("Criadas")
-        #personList = PersonList.PersonList()
 
 main = Main()

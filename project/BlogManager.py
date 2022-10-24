@@ -10,6 +10,8 @@ from project.AuthenticationManager import AuthenticationManager
 
 class BlogManager:
 
+    personList = PersonList()
+
     bp = Blueprint('blog', __name__)
 
     @bp.route('/')
@@ -22,9 +24,14 @@ class BlogManager:
     def home():
         return render_template('blog/home.html')
 
+    @bp.route('/all')
+    def all():
+        return render_template('blog/all.html')
+
     @bp.route('/heroes')
     def heroes():
         db = DbManager.get_db()
+
         users = db.execute(
             'SELECT id, username'
             ' FROM user '

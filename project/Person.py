@@ -8,8 +8,6 @@ class Person:
     def __init__(self):
         print("Pessoa Criada")
 
-        self.inicializar()
-
     def inicializar(self):
         self.nome = "Daniel"
         self.idade = 2
