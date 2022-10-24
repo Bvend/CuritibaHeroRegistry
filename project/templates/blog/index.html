@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block content %}
+
+<!-- 
   {% for user in users %}
     <article class="user">
       <header>
@@ -19,4 +21,12 @@
       <hr>
     {% endif %}
   {% endfor %}
+-->
+
+<div>
+  <ul>
+      <li><a href="{{ url_for('blog.heroes') }}">Heróis</a>
+      <li><a href="{{ url_for('blog.villains') }}">Vilões</a>
+  </ul>
+>>>>>>> building-the-blog
 {% endblock %}
