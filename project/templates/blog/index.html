@@ -10,10 +10,10 @@
     <article class="user">
       <header>
         <div>
-          <h1> Nome de usuário: {{ user['username'] }}</h1>
+          <h1> Nome de usuário: {{ user['nickname'] }}</h1>
         </div>
       </header>
-      <p> Id: {{ user['id'] }}</p>
+      <p> Id: {{ user['_role'] }}</p>
     </article>
     {% if not loop.last %}
       <hr>
