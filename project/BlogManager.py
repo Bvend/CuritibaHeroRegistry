@@ -92,8 +92,6 @@ class BlogManager:
                     db.commit()
                 except db.IntegrityError:
                     error = f"Villain {nickname} is already registered."
-                except db.IntegrityError:
-                    error = f"User {username} is already registered."
                 else:
                     return redirect(url_for('index'))
             flash(error)
