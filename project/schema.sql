@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS person;
+DROP TABLE IF EXISTS villain;
 
 CREATE TABLE person (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +23,16 @@ CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
+  tier CHAR,
   
   id_person_id INTEGER,
-  FOREIGN KEY (id_person_id) REFERENCES person
+  FOREIGN KEY (id_person_id) REFERENCES person(id)
+);
+
+CREATE TABLE villain (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  _status TEXT,
+  
+  id_person_id INTEGER,
+  FOREIGN KEY (id_person_id) REFERENCES person(id)
 );

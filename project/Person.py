@@ -1,17 +1,29 @@
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
-)
-
-import DbManager
-
 class Person:
     def __init__(self):
-        print("Pessoa Criada")
+        self.id = -1
+        self.nickname = ""
+        self._role = -1
 
-    def inicializar(self):
-        self.nome = "Daniel"
-        self.idade = 2
+    def setId(self, id):
+        self.id = id
 
-        print(self.nome + " tem " + str(self.idade) + " anos")
+    def setNickname(self, nickname):
+        self.nickname = nickname
 
+    def setRole(self, _role):
+        self._role = _role
+
+    def getId(self):
+        return self.id
+
+    def getNickname(self):
+        return self.nickname
     
+    def getRole(self):
+        return self._role
+
+    def getListAtributes(self):
+        pass
+
+    def show(self):
+        pass

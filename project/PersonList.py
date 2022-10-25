@@ -5,23 +5,70 @@ from werkzeug.exceptions import abort
 
 from project.DbManager import DbManager
 
+from project.Hero import Hero
+
+from project.Villan import Villan
+
+from project.Person import Person
+
 class PersonList:
 
     def __init__(self):
-        self.personList = ['Banana', 'Maca']
+        self.personList = []
 
     def updateDB(self):
         db = DbManager.get_db()
 
-        personList = db.execute(
+        self.personList = []
+
+        list = db.execute(
             'SELECT *'
             ' FROM person '
             ' ORDER BY id'
         ).fetchall()
 
-        return personList 
+        for element in list:
+            role = element['_role']
+            id = element['id']
 
-    def addPerson(self, _role, nickname):
+            if (role == 1):
+                person = Hero()
+                person.setTier(self.pesquisarTier(db, id))
+
+            elif (role == 2):
+                person = Villan()
+                person.setStatus(self.pesquisarStatus(db,id))
+
+            person.setId(id)
+            person.setNickname(element['nickname'])
+            person.setRole(role)
+            self.personList.append(person)
+
+        return self.personList 
+
+    def pesquisarTier(self, db, id):
+        tiers = db.execute(
+            ' SELECT id_person_id, tier'
+            ' FROM user',
+        ).fetchall()
+
+        for tier in tiers:
+            if tier['id_person_id'] == id:
+                return tier['tier']
+        return '-'
+    
+    def pesquisarStatus(self, db, id):
+        status = db.execute(
+            ' SELECT id_person_id, _status'
+            ' FROM villain',
+        ).fetchall()
+
+        for s in status:
+            if s['id_person_id'] == id:
+                return s['_status']
+        return "-"
+
+    def addPerson(self, nickname, _role):
         db = DbManager.get_db()
         try:
             db.execute(
@@ -34,17 +81,8 @@ class PersonList:
         
         self.personList = self.updateDB()
         self.printList()
-    
-    def printList(self):
-        for person in self.personList:
-            print((person['nickname']) + " " + str(person['_role']))
 
     def getPersonList(self):
+        self.personList = self.updateDB()
         return self.personList
-
-    def isEmpty(self):
-        if self.personList.count() == 0:
-            return True
-        else:
-            return False
 

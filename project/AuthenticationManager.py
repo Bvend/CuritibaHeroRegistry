@@ -17,6 +17,10 @@ class AuthenticationManager:
             username = request.form['username']
             password = request.form['password']
             captcha = request.form['captcha']
+
+            nickname = request.form['nickname']
+            tier = request.form['tier']
+
             db = DbManager.get_db()
             error = None
 
@@ -30,9 +34,17 @@ class AuthenticationManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO user (username, password) VALUES (?, ?)",
-                        (username, generate_password_hash(password)),
+                        "INSERT INTO person (nickname, _role) VALUES (?, ?)",
+                        (nickname, 1),
                     )
+                    person = db.execute(
+                                'SELECT * FROM person WHERE nickname = ?', (nickname,)
+                            ).fetchone()
+                    db.execute(
+                        "INSERT INTO user (username, password, id_person_id, tier) VALUES (?, ?, ?, ?)",
+                        (username, generate_password_hash(password), person['id'], tier),
+                    )
+
                     db.commit()
                 except db.IntegrityError:
                     error = f"User {username} is already registered."

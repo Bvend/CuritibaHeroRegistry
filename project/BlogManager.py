@@ -25,30 +25,77 @@ class BlogManager:
     def home():
         return render_template('blog/home.html')
 
+    @AuthenticationManager.login_required
     @bp.route('/all')
     def all():
-        return render_template('blog/all.html')
 
+        list = BlogManager.personList.getPersonList()
+
+        db = DbManager.get_db()
+
+        users = db.execute(
+            'SELECT id, username, id_person_id, tier'
+            ' FROM user '
+            ' ORDER BY id'
+        ).fetchall()
+
+        return render_template('blog/all.html', users = users, list = list)
+
+    @AuthenticationManager.login_required
     @bp.route('/heroes')
     def heroes():
 
         list = BlogManager.personList.getPersonList()
 
-        for elements in list:
-            print(elements)
-
         db = DbManager.get_db()
 
         users = db.execute(
-            'SELECT id, username'
+            'SELECT id, username, id_person_id, tier'
             ' FROM user '
             ' ORDER BY id'
         ).fetchall()
 
-        #return render_template('blog/index.html', users = users)
-        #return render_template('blog/index.html', users = personList.getPersonList())
-        return render_template('blog/heroes.html', users = users)
+        return render_template('blog/heroes.html', users = users, list = list)
 
+    @AuthenticationManager.login_required
     @bp.route('/villains')
     def villains():
-        return render_template('blog/villains.html')
+        list = BlogManager.personList.getPersonList()
+
+        return render_template('blog/villains.html', list = list)
+
+    @AuthenticationManager.login_required
+    @bp.route('/create_villain', methods=('GET', 'POST'))
+    def create_villain():
+        if request.method == 'POST':
+
+            nickname = request.form['nickname']
+            _status = request.form['status']
+
+            db = DbManager.get_db()
+            error = None
+
+            if error is None:
+                try:
+                    db.execute(
+                        "INSERT INTO person (nickname, _role) VALUES (?, ?)",
+                        (nickname, 2),
+                    )
+                    person = db.execute(
+                                'SELECT * FROM person WHERE nickname = ?', (nickname,)
+                            ).fetchone()
+                    db.execute(
+                        "INSERT INTO villain (_status, id_person_id) VALUES (?, ?)",
+                        (_status, person['id']),
+                    )
+
+                    db.commit()
+                except db.IntegrityError:
+                    error = f"Villain {nickname} is already registered."
+                except db.IntegrityError:
+                    error = f"User {username} is already registered."
+                else:
+                    return redirect(url_for('index'))
+            flash(error)
+
+        return render_template('blog/create_villain.html')
