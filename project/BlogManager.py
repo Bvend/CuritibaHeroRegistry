@@ -6,10 +6,11 @@ from werkzeug.exceptions import abort
 from project.DbManager import DbManager
 
 from project.PersonList import PersonList
+
 from project.AuthenticationManager import AuthenticationManager
 
 class BlogManager:
-
+    
     personList = PersonList()
 
     bp = Blueprint('blog', __name__)
@@ -30,6 +31,12 @@ class BlogManager:
 
     @bp.route('/heroes')
     def heroes():
+
+        list = BlogManager.personList.getPersonList()
+
+        for elements in list:
+            print(elements)
+
         db = DbManager.get_db()
 
         users = db.execute(

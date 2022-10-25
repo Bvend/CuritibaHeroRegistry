@@ -1,7 +1,5 @@
 import os
 
-import Person
-
 class Main:
 
     def __init__(self):

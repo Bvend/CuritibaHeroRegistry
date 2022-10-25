@@ -6,10 +6,10 @@ from werkzeug.exceptions import abort
 from project.DbManager import DbManager
 
 class PersonList:
-    
+
     def __init__(self):
-        self.personList = self.updateDB()
-    
+        self.personList = ['Banana', 'Maca']
+
     def updateDB(self):
         db = DbManager.get_db()
 
@@ -41,4 +41,10 @@ class PersonList:
 
     def getPersonList(self):
         return self.personList
+
+    def isEmpty(self):
+        if self.personList.count() == 0:
+            return True
+        else:
+            return False
 
