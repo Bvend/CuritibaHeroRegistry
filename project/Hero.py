@@ -5,6 +5,10 @@ class Hero(Person):
         super().__init__()
         self.tier = ''
         self.atributes = ["Tier: "]
+        self.isadm = 0
+
+    def setAdm(self, isadm):
+        self.isadm = isadm
 
     def setTier(self, tier):
         self.tier = tier
