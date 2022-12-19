@@ -21,6 +21,20 @@ class AuthenticationManager:
             nickname = request.form['nickname']
             tier = request.form['tier']
 
+            bio = request.form['bio']
+            _role = request.form['_role']
+
+            _power = request.form['_power']
+            _zone = request.form['_zone']
+
+            birth_day = request.form['birth_day']
+            birth_month = request.form['birth_month']
+            birth_year = request.form['birth_year']
+            
+            picture_url = request.form['picture_url']
+            _class = request.form['_class']
+
+
             db = DbManager.get_db()
             error = None
 
