@@ -7,6 +7,8 @@ from project.DbManager import DbManager
 
 from project.PersonList import PersonList
 
+from project.Person import Person
+
 from project.AuthenticationManager import AuthenticationManager
 
 class BlogManager:
@@ -26,8 +28,8 @@ class BlogManager:
         return render_template('blog/home.html')
 
     @AuthenticationManager.login_required
-    @bp.route('/all')
-    def all():
+    @bp.route('/list/<type>')
+    def list(type):
 
         list = BlogManager.personList.getPersonList()
 
@@ -39,30 +41,20 @@ class BlogManager:
             ' ORDER BY id'
         ).fetchall()
 
-        return render_template('blog/all.html', users = users, list = list)
+        return render_template('blog/list.html', users = users, list = list, type = int(type))
 
     @AuthenticationManager.login_required
-    @bp.route('/heroes')
-    def heroes():
+    @bp.route('/profile/<id>')
+    def profile(id):
+        person = Person()
 
         list = BlogManager.personList.getPersonList()
 
-        db = DbManager.get_db()
+        for element in list:
+            if (int(element.getId()) == int(id)):
+                person = element
 
-        users = db.execute(
-            'SELECT id, username, id_person_id, tier'
-            ' FROM user '
-            ' ORDER BY id'
-        ).fetchall()
-
-        return render_template('blog/heroes.html', users = users, list = list)
-
-    @AuthenticationManager.login_required
-    @bp.route('/villains')
-    def villains():
-        list = BlogManager.personList.getPersonList()
-
-        return render_template('blog/villains.html', list = list)
+        return render_template('blog/profile.html', person = person)
 
     @AuthenticationManager.login_required
     @bp.route('/create_villain', methods=('GET', 'POST'))
@@ -71,6 +63,10 @@ class BlogManager:
 
             nickname = request.form['nickname']
             _status = request.form['status']
+            bio = request.form['bio']
+            _power = request.form['_power']
+            _zone = request.form['_zone']
+            picture_url = request.form['picture_url']
 
             db = DbManager.get_db()
             error = None
@@ -78,8 +74,8 @@ class BlogManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role) VALUES (?, ?)",
-                        (nickname, 2),
+                        "INSERT INTO person (nickname, _role, bio, _power, _zone, picture_url) VALUES (?, ?, ?, ?, ?, ?)",
+                        (nickname, 2, bio, _power, _zone, picture_url),
                     )
                     person = db.execute(
                                 'SELECT * FROM person WHERE nickname = ?', (nickname,)

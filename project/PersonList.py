@@ -41,6 +41,10 @@ class PersonList:
 
             person.setId(id)
             person.setNickname(element['nickname'])
+            person.setBio(element['bio'])
+            person.setPower(element['_power'])
+            person.setZone(element['_zone'])
+            person.setPictureUrl(element['picture_url'])
             person.setRole(role)
             self.personList.append(person)
 
@@ -68,12 +72,12 @@ class PersonList:
                 return s['_status']
         return "-"
 
-    def addPerson(self, nickname, _role):
+    def addPerson(self, nickname, _role, bio):
         db = DbManager.get_db()
         try:
             db.execute(
-                "INSERT INTO person (nickname, _role) VALUES (?, ?)",
-                (nickname, _role),
+                "INSERT INTO person (nickname, _role, bio) VALUES (?, ?, ?)",
+                (nickname, _role, bio),
             )
             db.commit()
         except db.IntegrityError:
