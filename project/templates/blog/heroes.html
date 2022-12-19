@@ -19,6 +19,7 @@
         {% for element in list %}
             {% if element.getId() == user['id_person_id'] %}
                 <p> Apelido: {{  element.getNickname() }}</p> 
+                <p> Bio: {{  element.getBio() }}</p>
                 <p> Cargo: Herói </p> 
                 {% for atribute in element.getListAtributes()%}
                     <p> {{atribute}} {{element.show(atribute)}} </p>

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS villain;
 CREATE TABLE person (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   nickname TEXT NOT NULL,
-  _description TEXT,
+  bio TEXT UNIQUE NOT NULL,
   _role INTEGER NOT NULL,
 
   _power TEXT,
