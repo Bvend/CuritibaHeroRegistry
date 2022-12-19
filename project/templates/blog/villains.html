@@ -10,7 +10,8 @@
         {% if element.getRole() == 2 %}
             <p> Apelido: {{  element.getNickname() }}</p>
             <p>Bio : {{ element.getBio()}}</p>
-            <p> Cargo: Vilão </p> 
+            <p> Poderes: {{  element.getPower() }}</p>
+            <p>Zona de atuação: {{  element.getZone()  }}</p>
             {% for atribute in element.getListAtributes()%}
                 <p> {{atribute}} {{element.show(atribute)}} </p>
             {% endfor %}

@@ -10,21 +10,26 @@
     <article class="user">
       <header>
         <div>
-           <h1> Nome de usuário: {{ user['username'] }}</h1> 
         </div>
       </header>
-        <p> Id: {{ user['id'] }}</p> 
-        <p> Id Pessoa: {{user['id_person_id']}} </p>
 
         {% for element in list %}
             {% if element.getId() == user['id_person_id'] %}
-                <p> Apelido: {{  element.getNickname() }}</p> 
+            <header>  
+            <h1> Nome: {{  element.getNickname() }}</h1>
+            </header>
+                <p> Bio: {{  element.getBio() }}</p>
+                <p> Poderes: {{  element.getPower() }}</p>
+                <p>Zona de atuação: {{  element.getZone()  }}</p>
                 <p> Cargo: Herói </p> 
                 {% for atribute in element.getListAtributes()%}
                     <p> {{atribute}} {{element.show(atribute)}} </p>
                 {% endfor %}
             {% endif %}
         {% endfor %}
+
+        <p> Número de entrada: {{ user['id'] }}</p> 
+       <!-- <p> Id Pessoa: {{user['id_person_id']}} </p>-->
 
         </article>
         {% if not loop.last %}
@@ -34,7 +39,12 @@
     <hr>
     {% for element in list %}
         {% if element.getRole() == 2 %}
-            <p> Apelido: {{  element.getNickname() }}</p> 
+        <header>  
+          <h1> Nome: {{  element.getNickname() }}</h1>
+          </header>
+            <p> Bio: {{  element.getBio() }}</p>
+            <p> Poderes: {{  element.getPower() }}</p>
+            <p>Zona de atuação: {{  element.getZone()  }}</p>
             <p> Cargo: Vilão </p> 
             {% for atribute in element.getListAtributes()%}
                 <p> {{atribute}} {{element.show(atribute)}} </p>

@@ -4,6 +4,8 @@ class Person:
         self.nickname = ""
         self.bio = ""
         self._role = -1
+        self._power = ""
+        self._zone = ""
 
     def setId(self, id):
         self.id = id
@@ -17,6 +19,12 @@ class Person:
     def setBio(self, bio):
         self.bio = bio
 
+    def setPower(self, _power):
+        self._power = _power
+
+    def setZone(self, _zone):
+        self._zone = _zone
+    
     def getId(self):
         return self.id
 
@@ -28,6 +36,12 @@ class Person:
 
     def getBio(self):
         return self.bio
+
+    def getPower(self):
+        return self._power
+    
+    def getZone(self):
+        return self._zone
 
     def getListAtributes(self):
         pass

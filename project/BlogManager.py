@@ -50,7 +50,7 @@ class BlogManager:
         db = DbManager.get_db()
 
         users = db.execute(
-            'SELECT id, username, id_person_id, tier'
+            'SELECT id, id_person_id, tier, username'
             ' FROM user '
             ' ORDER BY id'
         ).fetchall()
@@ -72,6 +72,8 @@ class BlogManager:
             nickname = request.form['nickname']
             _status = request.form['status']
             bio = request.form['bio']
+            _power = request.form['_power']
+            _zone = request.form['_zone']
 
             db = DbManager.get_db()
             error = None
@@ -79,8 +81,8 @@ class BlogManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role, bio) VALUES (?, ?, ?)",
-                        (nickname, 2, bio),
+                        "INSERT INTO person (nickname, _role, bio, _power, _zone) VALUES (?, ?, ?, ?, ?)",
+                        (nickname, 2, bio, _power, _zone),
                     )
                     person = db.execute(
                                 'SELECT * FROM person WHERE nickname = ?', (nickname,)
