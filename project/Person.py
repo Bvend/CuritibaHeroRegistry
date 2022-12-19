@@ -6,6 +6,7 @@ class Person:
         self._role = -1
         self._power = ""
         self._zone = ""
+        self.picture_url = ""
 
     def setId(self, id):
         self.id = id
@@ -24,6 +25,9 @@ class Person:
 
     def setZone(self, _zone):
         self._zone = _zone
+
+    def setPictureUrl(self, picture_url):
+        self.picture_url = picture_url
     
     def getId(self):
         return self.id
@@ -42,6 +46,9 @@ class Person:
     
     def getZone(self):
         return self._zone
+
+    def getPictureUrl(self):
+        return self.picture_url
 
     def getListAtributes(self):
         pass

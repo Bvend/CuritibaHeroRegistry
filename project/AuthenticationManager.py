@@ -25,6 +25,7 @@ class AuthenticationManager:
             bio = request.form['bio']
             _power = request.form['_power']
             _zone = request.form['_zone']
+            picture_url = request.form['picture_url']
             _date = request.form['_date']
 
             db = DbManager.get_db()
@@ -44,8 +45,8 @@ class AuthenticationManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role, bio, _power, _zone) VALUES (?, ?, ?, ?, ?)",
-                        (nickname, 1, bio, _power, _zone),
+                        "INSERT INTO person (nickname, _role, bio, _power, _zone, picture_url) VALUES (?, ?, ?, ?, ?, ?)",
+                        (nickname, 1, bio, _power, _zone, picture_url),
                     )
                     person = db.execute(
                                 'SELECT * FROM person WHERE nickname = ?', (nickname,)
@@ -127,6 +128,13 @@ class AuthenticationManager:
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
+            nickname = request.form['nickname']
+            tier = request.form['tier']
+            bio = request.form['bio']
+            _power = request.form['_power']
+            _zone = request.form['_zone']
+            picture_url = request.form['picture_url']
+            _date = request.form['_date']
             error = None
 
             if not username:
@@ -136,11 +144,21 @@ class AuthenticationManager:
                 flash(error)
             else:
                 db = DbManager.get_db()
+
                 db.execute(
-                    'UPDATE user SET username = ?, password= ?'
+                    'UPDATE user SET username = ?, password= ?, tier = ?'
                     ' WHERE id = ?',
-                    (username, generate_password_hash(password), id)
+                    (username, generate_password_hash(password), tier, id)
                 )
+
+                data = db.execute('SELECT * FROM user WHERE id_person_id = ?', (id,)).fetchone()
+
+                db.execute(
+                    'UPDATE person SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?'
+                    ' WHERE id = ?',
+                    (nickname, bio, _power, _zone, picture_url, data['id_person_id'])
+                )
+
                 db.commit()
                 return redirect(url_for('blog.index'))
 

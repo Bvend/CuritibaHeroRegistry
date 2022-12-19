@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>{% block title %} {{ person.getNickname() }} :{% endblock %}</h1>
+    <h1>{% block title %} {{ person.getNickname() }}:{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -10,5 +10,6 @@
     <p>Zona de atuação: {{  person.getZone()  }}</p>
     {% for atribute in person.getListAtributes()%}
     <p> {{atribute}} {{person.show(atribute)}} </p>
+    <img src= {{ person.getPictureUrl() }} >
     {% endfor %}
 {% endblock %}

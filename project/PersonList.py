@@ -44,6 +44,7 @@ class PersonList:
             person.setBio(element['bio'])
             person.setPower(element['_power'])
             person.setZone(element['_zone'])
+            person.setPictureUrl(element['picture_url'])
             person.setRole(role)
             self.personList.append(person)
 

@@ -7,28 +7,16 @@
 
 {% block content %}
 
-<!-- 
-  {% for user in users %}
-    <article class="user">
-      <header>
-        <div>
-          <h1> Nome de usuário: {{ user['nickname'] }}</h1>
-        </div>
-      </header>
-      <p> Id: {{ user['_role'] }}</p>
-    </article>
-    {% if not loop.last %}
-      <hr>
-    {% endif %}
-  {% endfor %}
--->
+</br>
 
-<div>
-  <ul>
-      <li><a href="{{ url_for('blog.list', type = 0) }}">Listar Todos</a>
-      <li><a href="{{ url_for('blog.list', type = 1) }}">Listar Heróis</a>
-      <li><a href="{{ url_for('blog.list', type = 2) }}">Listar Vilões</a>
-      <li><a href="{{ url_for('blog.create_villain') }}">Registrar Vilão</a>
-  </ul>
+<img src= "https://play-lh.googleusercontent.com/iSxPiIZWr1YtL4iAmL5hLoXFXDBFq5qXfbDEhKIUdRN8Bq42Bg5h5grXvOLWSpD68t4" >
+
+</br>
+
+<h4>
+    <a href="{{ url_for('blog.list', type = 0) }}">Listar Heróis e Vilões</a> </br> </br>
+    <a href="{{ url_for('blog.list', type = 1) }}">Listar Somente Heróis</a> </br> </br> 
+    <a href="{{ url_for('blog.list', type = 2) }}">Listar Somente Vilões</a> </br> </br>
+</h4>
 
 {% endblock %}
