@@ -33,6 +33,8 @@ class AuthenticationManager:
                 error = 'Captcha is required'
             elif not captcha:
                 error = 'Captcha is required'
+            elif not bio:
+                error = 'Bio is required'
 
             if error is None:
                 try:

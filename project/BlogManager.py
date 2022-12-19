@@ -71,7 +71,7 @@ class BlogManager:
 
             nickname = request.form['nickname']
             _status = request.form['status']
-            bio = resquest.form['bio']
+            bio = request.form['bio']
 
             db = DbManager.get_db()
             error = None
@@ -79,8 +79,8 @@ class BlogManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role) VALUES (?, ?)",
-                        (nickname, 2),
+                        "INSERT INTO person (nickname, _role, bio) VALUES (?, ?, ?)",
+                        (nickname, 2, bio),
                     )
                     person = db.execute(
                                 'SELECT * FROM person WHERE nickname = ?', (nickname,)

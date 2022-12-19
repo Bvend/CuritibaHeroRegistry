@@ -27,7 +27,7 @@ class Person:
         return self._role
 
     def getBio(self):
-        return self.Bio
+        return self.bio
 
     def getListAtributes(self):
         pass
