@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Lista:{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% if type < 2 %}
+  {% for user in users %}
+        
+        {% for element in list %}
+          
+            {% if element.getId() == user['id_person_id'] %}
+          
+              <h1>  <a href="{{ url_for('blog.profile', id = element.getId()) }}">  {{ element.getNickname() }} </a> </h1>
+            
+            {% endif %}
+        {% endfor %}
+        
+    {% endfor %}
+  {% endif %}
+
+  {% if type != 1 %}
+    {% for element in list %}
+        {% if element.getRole() == 2 %}
+        
+          <h1> <a href="{{ url_for('blog.profile', id = element.getId()) }}">  {{ element.getNickname() }} </a> </h1>
+        {% endif %}
+        </article>
+
+    {% endfor %}
+  {% endif %}
+  
+{% endblock %}

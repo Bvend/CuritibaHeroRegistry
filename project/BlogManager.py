@@ -7,6 +7,8 @@ from project.DbManager import DbManager
 
 from project.PersonList import PersonList
 
+from project.Person import Person
+
 from project.AuthenticationManager import AuthenticationManager
 
 class BlogManager:
@@ -26,8 +28,8 @@ class BlogManager:
         return render_template('blog/home.html')
 
     @AuthenticationManager.login_required
-    @bp.route('/all')
-    def all():
+    @bp.route('/list/<type>')
+    def list(type):
 
         list = BlogManager.personList.getPersonList()
 
@@ -39,30 +41,20 @@ class BlogManager:
             ' ORDER BY id'
         ).fetchall()
 
-        return render_template('blog/all.html', users = users, list = list)
+        return render_template('blog/list.html', users = users, list = list, type = int(type))
 
     @AuthenticationManager.login_required
-    @bp.route('/heroes')
-    def heroes():
+    @bp.route('/profile/<id>')
+    def profile(id):
+        person = Person()
 
         list = BlogManager.personList.getPersonList()
 
-        db = DbManager.get_db()
+        for element in list:
+            if (int(element.getId()) == int(id)):
+                person = element
 
-        users = db.execute(
-            'SELECT id, id_person_id, tier, username'
-            ' FROM user '
-            ' ORDER BY id'
-        ).fetchall()
-
-        return render_template('blog/heroes.html', users = users, list = list)
-
-    @AuthenticationManager.login_required
-    @bp.route('/villains')
-    def villains():
-        list = BlogManager.personList.getPersonList()
-
-        return render_template('blog/villains.html', list = list)
+        return render_template('blog/profile.html', person = person)
 
     @AuthenticationManager.login_required
     @bp.route('/create_villain', methods=('GET', 'POST'))

@@ -25,9 +25,9 @@
 
 <div>
   <ul>
-      <li><a href="{{ url_for('blog.heroes') }}">Listar Heróis</a>
-      <li><a href="{{ url_for('blog.villains') }}">Listar Vilões</a>
-      <li><a href="{{ url_for('blog.all') }}">Listar Todos</a>
+      <li><a href="{{ url_for('blog.list', type = 0) }}">Listar Todos</a>
+      <li><a href="{{ url_for('blog.list', type = 1) }}">Listar Heróis</a>
+      <li><a href="{{ url_for('blog.list', type = 2) }}">Listar Vilões</a>
       <li><a href="{{ url_for('blog.create_villain') }}">Registrar Vilão</a>
   </ul>
 
