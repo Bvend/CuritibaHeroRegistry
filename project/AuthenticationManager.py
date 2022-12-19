@@ -7,6 +7,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from project.DbManager import DbManager
 
+from datetime import datetime
+
 class AuthenticationManager:
 
     bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -21,6 +23,9 @@ class AuthenticationManager:
             nickname = request.form['nickname']
             tier = request.form['tier']
             bio = request.form['bio']
+            _power = request.form['_power']
+            _zone = request.form['_zone']
+            _date = request.form['_date']
 
             db = DbManager.get_db()
             error = None
@@ -39,8 +44,8 @@ class AuthenticationManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role, bio) VALUES (?, ?, ?)",
-                        (nickname, 1, bio),
+                        "INSERT INTO person (nickname, _role, bio, _power, _zone) VALUES (?, ?, ?, ?, ?)",
+                        (nickname, 1, bio, _power, _zone),
                     )
                     person = db.execute(
                                 'SELECT * FROM person WHERE nickname = ?', (nickname,)
