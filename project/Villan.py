@@ -18,5 +18,7 @@ class Villan(Person):
     def show(self, atribute):
         if atribute == "Status: ":
             return self._status
+        elif atribute == "Bio: ":
+            return self.bio
         
         

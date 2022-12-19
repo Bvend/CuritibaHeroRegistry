@@ -20,6 +20,7 @@ class AuthenticationManager:
 
             nickname = request.form['nickname']
             tier = request.form['tier']
+            bio = request.form['bio']
 
             db = DbManager.get_db()
             error = None
@@ -30,15 +31,17 @@ class AuthenticationManager:
                 error = 'Password is required.'
             elif not captcha:
                 error = 'Captcha is required'
+            elif not captcha:
+                error = 'Captcha is required'
 
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role) VALUES (?, ?)",
-                        (nickname, 1),
+                        "INSERT INTO person (nickname, bio, _role) VALUES (?, ?, ?)",
+                        (nickname, bio, 1),
                     )
                     person = db.execute(
-                                'SELECT * FROM person WHERE nickname = ?', (nickname,)
+                                'SELECT * FROM person WHERE nickname = ?', (nickname)
                             ).fetchone()
                     db.execute(
                         "INSERT INTO user (username, password, id_person_id, tier) VALUES (?, ?, ?, ?)",

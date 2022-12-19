@@ -71,6 +71,7 @@ class BlogManager:
 
             nickname = request.form['nickname']
             _status = request.form['status']
+            bio = resquest.form['bio']
 
             db = DbManager.get_db()
             error = None

@@ -41,6 +41,7 @@ class PersonList:
 
             person.setId(id)
             person.setNickname(element['nickname'])
+            person.setBio(element['bio'])
             person.setRole(role)
             self.personList.append(person)
 
