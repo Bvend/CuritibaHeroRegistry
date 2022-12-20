@@ -140,7 +140,6 @@ class AuthenticationManager:
         data = db.execute('SELECT * FROM user WHERE id = ?', (id,)).fetchone()
         personList = PersonList()
         personList.getPersonList()
-        print(data['id_person_id'])
         person = personList.searchById(int(data['id_person_id']))
 
         if request.method == 'POST':
@@ -182,6 +181,7 @@ class AuthenticationManager:
                     (nickname, bio, _power, _zone, picture_url, _date.day, _date.month, _date.year, _class, data['id_person_id'],)
                 )
                 db.commit()
+                return redirect(url_for('index'))
 
         return render_template('auth/update.html', person = person)
 

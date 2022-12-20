@@ -92,7 +92,6 @@ class PersonList:
         list = self.personList
         for element in list:
             if (int(element.getId()) == int(id)):
-                print("Encontrou")
                 return element
 
     def getPersonList(self):
