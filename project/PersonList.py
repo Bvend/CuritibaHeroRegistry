@@ -88,6 +88,13 @@ class PersonList:
         self.personList = self.updateDB()
         self.printList()
 
+    def searchById(self, id):
+        list = self.personList
+        for element in list:
+            if (int(element.getId()) == int(id)):
+                print("Encontrou")
+                return element
+
     def getPersonList(self):
         self.personList = self.updateDB()
         return self.personList

@@ -1,22 +1,25 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit {{ g.user['username'] }} (Id: {{ g.user['id'] }}) {% endblock %}</h1>
+  <h1>{% block title %}Edit {{ g.user['username'] }}  {% endblock %}</h1>
 {% endblock %}
+
+<!-- (Id: {{ g.user['id'] }}) -->
 
 {% block content %}
   <form method="post">
     <label for="username">Nome de Usuário</label>
     <input name="username" id="username" value= "{{ g.user['username'] }}" required>
 
-    <label for="password">Senha</label>
+    <label for="password">Senha  </label>
     <input type="password" name="password" id="password" required>
+    <i>  (deixar em branco se não quiser alterar)  </i> </br>
 
     <label for="nickname">Apelido</label>
-    <input name="nickname" id="nickname" required>
+    <input name="nickname" id="nickname" value = {{ person.getNickname() }} required>
 
     <label for="tier">Tier (Popularidade)</label>
-    <select name="tier" id="tier" required>
+    <select name="tier" id="tier" value = {{ g.user['tier'] }} required>
       <option value="S">S</option>
       <option value="A">A</option>
       <option value="B">B</option>
@@ -33,19 +36,19 @@
 
 
     <label for="bio">Bio</label>
-    <input name="bio" id="bio" required>
+    <input name="bio" id="bio" value = {{ person.getBio() }} required>
 
     <label for="_power">Poderes</label>
-    <input name="_power" id="_power" required>
+    <input name="_power" id="_power" value = {{ person.getPower() }} required>
     
     <label for="_zone">Zona de atuação</label>
-    <input name="_zone" id="_zone" required>
+    <input name="_zone" id="_zone" value = {{ person.getZone() }} required>
 
     <label for="picture_url">URL para a foto de perfil:</label>
-    <input name="picture_url" id="picture_url">
+    <input name="picture_url" id="picture_url" value = {{ person.getPictureUrl() }} required>
 
     <label for="date">Data de nascimento</label>
-    <input name = "date" type="date" value = "" min="0000-01-01" max="2022-12-31" id="date" required>
+    <input name = "date" type="date" value = {{ person.getBirth() }} min="0000-01-01" max="2022-12-31" id="date" required>
     
     <input type="submit" value="Save">
     </form>
@@ -53,7 +56,7 @@
 
     {% if g.user['is_adm'] != 1 %}
       <form action="{{ url_for('auth.delete', id=g.user['id']) }}" method="post">
-        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
       </form>
 
     {% endif %}

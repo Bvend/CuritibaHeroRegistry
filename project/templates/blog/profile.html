@@ -22,7 +22,7 @@
     {% if g.user['is_adm'] == 1 %}
         {% if g.user['id'] != person.getId() %}
         <form action= "{{ url_for('blog.delete_person', id= person.getId()) }}" method="post">
-            <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+            <input class="danger" type="submit" value="Delete" onclick="return confirm('Tem certeza?');">
         </form>
         {% endif %}
     {% endif %}
