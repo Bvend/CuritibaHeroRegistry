@@ -2,11 +2,11 @@ import os
 
 from flask import Flask
 
-from project.DbManager import DbManager
+# from project.DbManager import DbManager
 
-from project.AuthenticationManager import AuthenticationManager
+# from project.AuthenticationManager import AuthenticationManager
 
-from project.BlogManager import BlogManager
+# from project.BlogManager import BlogManager
 
 def create_app(test_config=None):
     # create and configure the app
@@ -28,7 +28,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    #from . import db
+    from . import DbManager
     DbManager.init_app(app)
 
     from . import AuthenticationManager

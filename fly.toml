@@ -1,11 +1,15 @@
-# fly.toml file generated for curitiba-hero-registry on 2022-12-19T23:59:03-03:00
+# fly.toml file generated for curitiba-hero-registry on 2022-12-20T02:40:01-03:00
 
 app = "curitiba-hero-registry"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[build]
+  builder = "paketobuildpacks/builder:full"
+
 [env]
+  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
