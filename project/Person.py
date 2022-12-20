@@ -65,6 +65,12 @@ class Person:
     def getBirthYear(self):
         return self.birth_year
 
+    def getBirth(self):
+        string = str(self.birth_year)+"-"
+        string = string + str(self.birth_month)+"-"
+        string = string + str(self.birth_day)
+        return string
+
     def getListAtributes(self):
         pass
 

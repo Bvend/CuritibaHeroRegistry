@@ -7,6 +7,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from project.DbManager import DbManager
 
+from project.Person import Person
+
+from project.PersonList import PersonList
+
 from datetime import date
 
 class AuthenticationManager:
@@ -64,7 +68,6 @@ class AuthenticationManager:
                             'UPDATE user SET is_adm = 1 WHERE username = ?', (username,)
                         )
                     
-
                     db.commit()
                 except db.IntegrityError:
                     error = f"User {username} is already registered."
@@ -133,6 +136,14 @@ class AuthenticationManager:
     @bp.route('/<int:id>/update', methods=('GET', 'POST'))
     @login_required
     def update(id):
+        person = Person()
+        db = DbManager.get_db()
+        data = db.execute('SELECT * FROM user WHERE id = ?', (id,)).fetchone()
+        personList = PersonList()
+        personList.getPersonList()
+        print(data['id_person_id'])
+        person = personList.searchById(int(data['id_person_id']))
+
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
@@ -146,7 +157,7 @@ class AuthenticationManager:
             _date = request.form['date'].split('-')
             _date = date(int(_date[0]), int(_date[1]), int(_date[2]))
             error = None
-
+            
             if not username:
                 error = 'Username is required.'
 
@@ -161,20 +172,18 @@ class AuthenticationManager:
                     (username, generate_password_hash(password), tier, id)
                 )
 
-                data = db.execute('SELECT * FROM user WHERE id_person_id = ?', (id,)).fetchone()
+                data = db.execute('SELECT * FROM user WHERE id = ?', (id,)).fetchone()
 
                 db.execute(
                     'UPDATE person '
-                    ' SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?'
+                    ' SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?,'
                     ' birth_day = ?, birth_month = ?, birth_year = ?'
                     ' WHERE id = ?',
-                    (nickname, bio, _power, _zone, picture_url, data['id_person_id'], _date.day, _date.month, _date.year)
+                    (nickname, bio, _power, _zone, picture_url, _date.day, _date.month, _date.year, data['id_person_id'],)
                 )
-
                 db.commit()
-                return redirect(url_for('blog.index'))
 
-        return render_template('auth/update.html')
+        return render_template('auth/update.html', person = person)
 
     @bp.route('/<int:id>/delete', methods=('POST',))
     @login_required

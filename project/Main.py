@@ -9,7 +9,7 @@ class Main:
 
     def initializeFlask(self):
         flag = input("Qual o sistema operacional? [W]/[L] \n")
-
+        # flag = 'W'
         if flag == 'W':
             os.system("py -m flask --app project init-db")
             os.system("py -m flask --app project --debug run")
