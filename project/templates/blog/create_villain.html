@@ -11,7 +11,21 @@
     <input name="nickname" id="nickname" required>
 
     <label for="status">Status</label>
-    <input name="status" id="status" required>
+    <select name="status" id="status" required>
+      <option value="Na prisão">Na prisão</option>
+      <option value="Morreu">Morreu</option>
+      <option value="À solta">À solta</option>
+      <option value="Paradeiro desconhecido">Paradeiro desconhecido</option>
+    </select>
+
+    <label for="_class">Classe</label>
+    <select name="_class" id="_class" required>
+      <option value="S">S</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+    </select>
+
 
     <label for="bio">Bio</label>
     <input name="bio" id="bio" required>
@@ -23,7 +37,7 @@
     <input name="_zone" id="_zone" required>
 
     <label for="picture_url">URL para a foto de perfil:</label>
-    <input name="picture_url" id="picture_url" required>
+    <input name="picture_url" id="picture_url" >
 
     <input type="submit" value="Registrar">
   </form>

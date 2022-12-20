@@ -46,6 +46,7 @@ class PersonList:
             person.setZone(element['_zone'])
             person.setPictureUrl(element['picture_url'])
             person.setBirthDate(element['birth_day'], element['birth_month'], element['birth_year'])
+            person.setClass(element['class'])
             person.setRole(role)
             self.personList.append(person)
 

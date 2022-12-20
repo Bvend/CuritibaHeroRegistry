@@ -26,6 +26,7 @@ class AuthenticationManager:
             _power = request.form['_power']
             _zone = request.form['_zone']
             picture_url = request.form['picture_url']
+            _class = request.form['_class']
 
             _date = request.form['date'].split('-')
             _date = date(int(_date[0]), int(_date[1]), int(_date[2]))
@@ -39,8 +40,6 @@ class AuthenticationManager:
                 error = 'Password is required.'
             elif not captcha:
                 error = 'Captcha is required'
-            elif not captcha:
-                error = 'Captcha is required'
             elif not bio:
                 error = 'Bio is required'
 
@@ -48,9 +47,9 @@ class AuthenticationManager:
                 try:
                     db.execute(
                         'INSERT INTO person '
-                        '(nickname, _role, bio, _power, _zone, picture_url, birth_day, birth_month, birth_year) '
-                        ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                        (nickname, 1, bio, _power, _zone, picture_url, _date.day, _date.month, _date.year),
+                        '(nickname, _role, bio, _power, _zone, picture_url, birth_day, birth_month, birth_year, class) '
+                        ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                        (nickname, 1, bio, _power, _zone, picture_url, _date.day, _date.month, _date.year, _class),
                     )
                     person = db.execute(
                                 'SELECT * FROM person'
@@ -142,6 +141,7 @@ class AuthenticationManager:
             _power = request.form['_power']
             _zone = request.form['_zone']
             picture_url = request.form['picture_url']
+            _class = request.form['_class']
 
             _date = request.form['date'].split('-')
             _date = date(int(_date[0]), int(_date[1]), int(_date[2]))
@@ -161,14 +161,14 @@ class AuthenticationManager:
                     (username, generate_password_hash(password), tier, id)
                 )
 
-                data = db.execute('SELECT * FROM user WHERE id_person_id = ?', (id,)).fetchone()
+                data = db.execute('SELECT * FROM user WHERE id = ?', (id,)).fetchone()
 
                 db.execute(
                     'UPDATE person '
-                    ' SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?'
-                    ' birth_day = ?, birth_month = ?, birth_year = ?'
+                    ' SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?,'
+                    ' birth_day = ?, birth_month = ?, birth_year = ?, class = ?'
                     ' WHERE id = ?',
-                    (nickname, bio, _power, _zone, picture_url, data['id_person_id'], _date.day, _date.month, _date.year)
+                    (nickname, bio, _power, _zone, picture_url, _date.day, _date.month, _date.year, _class, data['id_person_id'],)
                 )
 
                 db.commit()

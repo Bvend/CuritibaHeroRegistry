@@ -8,7 +8,7 @@
     <p> Bio: {{  person.getBio() }}</p>
     <p> Poderes: {{  person.getPower() }}</p>
     <p> Zona de atuação: {{  person.getZone()  }}</p>
-    <p> Classe de poder:  </p>
+    <p> Classe de poder: {{ person.getClass()  }} </p>
 
     {% if person.getRole() != 2 %}
         <p> Data de Nascimento: {{person.getBirthDay()}}/{{person.getBirthMonth()}}/{{person.getBirthYear()}}  </p>

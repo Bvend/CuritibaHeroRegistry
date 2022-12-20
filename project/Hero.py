@@ -4,7 +4,7 @@ class Hero(Person):
     def __init__(self):
         super().__init__()
         self.tier = ''
-        self.atributes = ["Tier: "]
+        self.atributes = ["Tier de poder: "]
         self.isadm = 0
 
     def setAdm(self, isadm):
@@ -20,7 +20,7 @@ class Hero(Person):
         return self.isadm
 
     def show(self, atribute):
-        if atribute == "Tier: ":
+        if atribute == "Tier de poder: ":
             return self.tier
         if atribute == "Eh adm: ":
             return self.isadm

@@ -6,6 +6,7 @@ class Person:
         self._role = -1
         self._power = ""
         self._zone = ""
+        self._class = ""
         self.picture_url = ""
         self.birth_day = -1
         self.birth_month = -1
@@ -31,6 +32,9 @@ class Person:
 
     def setPictureUrl(self, picture_url):
         self.picture_url = picture_url
+
+    def setClass(self, _class):
+        self._class = _class
     
     def setBirthDate(self, birth_day, birth_month, birth_year):
         self.birth_day = birth_day
@@ -57,6 +61,9 @@ class Person:
 
     def getPictureUrl(self):
         return self.picture_url
+
+    def getClass(self):
+        return self._class
 
     def getBirthDay(self):
         return self.birth_day

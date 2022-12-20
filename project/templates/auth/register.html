@@ -15,8 +15,21 @@
     <label for="nickname">Apelido</label>
     <input name="nickname" id="nickname" required>
 
-    <label for="tier">Tier</label>
-    <input name="tier" id="tier" required>
+    <label for="tier">Tier (Popularidade)</label>
+    <select name="tier" id="tier" required>
+      <option value="S">S</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+    </select>
+
+    <label for="_class">Classe</label>
+    <select name="_class" id="_class" required>
+      <option value="S">S</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+    </select>
 
     <label for="bio">Bio</label>
     <input name="bio" id="bio" required>
@@ -28,7 +41,7 @@
     <input name="_zone" id="_zone" required>
 
     <label for="picture_url">URL para a foto de perfil:</label>
-    <input name="picture_url" id="picture_url" required>
+    <input name="picture_url" id="picture_url">
 
     <label for="date">Data de nascimento</label>
     <input name = "date" type="date" value = "" min="0000-01-01" max="2022-12-31" id="date" required>
