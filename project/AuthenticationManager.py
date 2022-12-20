@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from project.DbManager import DbManager
 
-from datetime import datetime
+from datetime import date
 
 class AuthenticationManager:
 
@@ -26,21 +26,9 @@ class AuthenticationManager:
             _power = request.form['_power']
             _zone = request.form['_zone']
             picture_url = request.form['picture_url']
-            _date = request.form['_date']
 
-            bio = request.form['bio']
-            _role = request.form['_role']
-
-            _power = request.form['_power']
-            _zone = request.form['_zone']
-
-            birth_day = request.form['birth_day']
-            birth_month = request.form['birth_month']
-            birth_year = request.form['birth_year']
-            
-            picture_url = request.form['picture_url']
-            _class = request.form['_class']
-
+            _date = request.form['date'].split('-')
+            _date = date(int(_date[0]), int(_date[1]), int(_date[2]))
 
             db = DbManager.get_db()
             error = None
@@ -59,16 +47,23 @@ class AuthenticationManager:
             if error is None:
                 try:
                     db.execute(
-                        "INSERT INTO person (nickname, _role, bio, _power, _zone, picture_url) VALUES (?, ?, ?, ?, ?, ?)",
-                        (nickname, 1, bio, _power, _zone, picture_url),
+                        'INSERT INTO person '
+                        '(nickname, _role, bio, _power, _zone, picture_url, birth_day, birth_month, birth_year) '
+                        ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                        (nickname, 1, bio, _power, _zone, picture_url, _date.day, _date.month, _date.year),
                     )
                     person = db.execute(
-                                'SELECT * FROM person WHERE nickname = ?', (nickname,)
-                            ).fetchone()
+                                'SELECT * FROM person'
+                            ).fetchall()
                     db.execute(
-                        "INSERT INTO user (username, password, id_person_id, tier) VALUES (?, ?, ?, ?)",
-                        (username, generate_password_hash(password), person['id'], tier),
+                        "INSERT INTO user (username, password, id_person_id, tier, is_adm) VALUES (?, ?, ?, ?, ?)",
+                        (username, generate_password_hash(password), person[-1]['id'], tier, 0),
                     )
+                    if (person[-1]['id'] == 1):
+                        db.execute(
+                            'UPDATE user SET is_adm = 1 WHERE username = ?', (username,)
+                        )
+                    
 
                     db.commit()
                 except db.IntegrityError:
@@ -133,7 +128,6 @@ class AuthenticationManager:
                 return redirect(url_for('blog.home'))
 
             return view(**kwargs)
-
         return wrapped_view
 
     @bp.route('/<int:id>/update', methods=('GET', 'POST'))
@@ -148,7 +142,9 @@ class AuthenticationManager:
             _power = request.form['_power']
             _zone = request.form['_zone']
             picture_url = request.form['picture_url']
-            _date = request.form['_date']
+
+            _date = request.form['date'].split('-')
+            _date = date(int(_date[0]), int(_date[1]), int(_date[2]))
             error = None
 
             if not username:
@@ -168,9 +164,11 @@ class AuthenticationManager:
                 data = db.execute('SELECT * FROM user WHERE id_person_id = ?', (id,)).fetchone()
 
                 db.execute(
-                    'UPDATE person SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?'
+                    'UPDATE person '
+                    ' SET nickname = ?, bio = ?, _power = ?, _zone = ?, picture_url = ?'
+                    ' birth_day = ?, birth_month = ?, birth_year = ?'
                     ' WHERE id = ?',
-                    (nickname, bio, _power, _zone, picture_url, data['id_person_id'])
+                    (nickname, bio, _power, _zone, picture_url, data['id_person_id'], _date.day, _date.month, _date.year)
                 )
 
                 db.commit()

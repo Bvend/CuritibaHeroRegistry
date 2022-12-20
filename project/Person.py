@@ -7,6 +7,9 @@ class Person:
         self._power = ""
         self._zone = ""
         self.picture_url = ""
+        self.birth_day = -1
+        self.birth_month = -1
+        self.birth_year = -1
 
     def setId(self, id):
         self.id = id
@@ -29,6 +32,11 @@ class Person:
     def setPictureUrl(self, picture_url):
         self.picture_url = picture_url
     
+    def setBirthDate(self, birth_day, birth_month, birth_year):
+        self.birth_day = birth_day
+        self.birth_month = birth_month
+        self.birth_year = birth_year
+
     def getId(self):
         return self.id
 
@@ -49,6 +57,13 @@ class Person:
 
     def getPictureUrl(self):
         return self.picture_url
+
+    def getBirthDay(self):
+        return self.birth_day
+    def getBirthMonth(self):
+        return self.birth_month
+    def getBirthYear(self):
+        return self.birth_year
 
     def getListAtributes(self):
         pass

@@ -33,8 +33,9 @@
     {% endfor %}
         
     </br>
-    
-    <a href="{{ url_for('blog.create_villain') }}">Registrar Vilão</a>
+    {% if g.user['is_adm'] == 1 %}
+      <a href="{{ url_for('blog.create_villain') }}">Registrar Vilão</a>
+    {% endif %}
   {% endif %}
   
 {% endblock %}

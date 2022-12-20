@@ -7,7 +7,7 @@
 {% block content %}
   <form method="post">
     <label for="username">Nome de Usuário</label>
-    <input name="username" id="username" required>
+    <input name="username" id="username" value= {{ g.user['username'] }} required>
 
     <label for="password">Senha</label>
     <input type="password" name="password" id="password" required>
@@ -37,8 +37,10 @@
     </form>
     <hr>
 
-    <form action="{{ url_for('auth.delete', id=g.user['id']) }}" method="post">
-      <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-    </form>
+    {% if g.user['is_adm'] != 1 %}
+      <form action="{{ url_for('auth.delete', id=g.user['id']) }}" method="post">
+        <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+      </form>
 
+    {% endif %}
 {% endblock %}

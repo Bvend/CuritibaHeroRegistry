@@ -33,7 +33,7 @@ class PersonList:
 
             if (role == 1):
                 person = Hero()
-                person.setTier(self.pesquisarTier(db, id))
+                self.setPersonAtributtes(db, id, person)
 
             elif (role == 2):
                 person = Villan()
@@ -45,21 +45,22 @@ class PersonList:
             person.setPower(element['_power'])
             person.setZone(element['_zone'])
             person.setPictureUrl(element['picture_url'])
+            person.setBirthDate(element['birth_day'], element['birth_month'], element['birth_year'])
             person.setRole(role)
             self.personList.append(person)
 
         return self.personList 
 
-    def pesquisarTier(self, db, id):
+    def setPersonAtributtes(self, db, id, p):
         tiers = db.execute(
-            ' SELECT id_person_id, tier'
+            ' SELECT id_person_id, tier, is_adm'
             ' FROM user',
         ).fetchall()
 
         for tier in tiers:
             if tier['id_person_id'] == id:
-                return tier['tier']
-        return '-'
+                p.setTier(tier['tier'])
+                p.setAdm(tier['is_adm'])
     
     def pesquisarStatus(self, db, id):
         status = db.execute(

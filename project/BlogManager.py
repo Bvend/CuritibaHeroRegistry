@@ -93,3 +93,25 @@ class BlogManager:
             flash(error)
 
         return render_template('blog/create_villain.html')
+
+    @bp.route('/<int:id>/delete_person', methods=('POST',))
+    @AuthenticationManager.login_required
+    def delete_person(id):
+        db = DbManager.get_db()
+
+        data = db.execute(
+             'SELECT is_adm, id FROM user WHERE id_person_id = ?', (id,),
+        ).fetchone()
+        condition = db.execute(
+            'SELECT _role FROM person WHERE id = ?', (id,),
+        ).fetchone()
+
+        db.execute('DELETE FROM person WHERE id = ?', (id,))
+
+        db.commit()
+
+        if (condition['_role'] == 1):
+            redirect(url_for('auth.delete', id= data['id']))
+        
+        return redirect(url_for('blog.index'))
+

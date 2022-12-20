@@ -7,9 +7,24 @@
 {% block content %}
     <p> Bio: {{  person.getBio() }}</p>
     <p> Poderes: {{  person.getPower() }}</p>
-    <p>Zona de atuação: {{  person.getZone()  }}</p>
+    <p> Zona de atuação: {{  person.getZone()  }}</p>
+    <p> Classe de poder:  </p>
+
+    {% if person.getRole() != 2 %}
+        <p> Data de Nascimento: {{person.getBirthDay()}}/{{person.getBirthMonth()}}/{{person.getBirthYear()}}  </p>
+    {% endif %}
+
     {% for atribute in person.getListAtributes()%}
-    <p> {{atribute}} {{person.show(atribute)}} </p>
-    <img src= {{ person.getPictureUrl() }} >
+        <p> {{atribute}} {{person.show(atribute)}} </p>
     {% endfor %}
+    <img src= {{ person.getPictureUrl() }} >
+
+    {% if g.user['is_adm'] == 1 %}
+        {% if g.user['id'] != person.getId() %}
+        <form action= "{{ url_for('blog.delete_person', id= person.getId()) }}" method="post">
+            <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+        </form>
+        {% endif %}
+    {% endif %}
+
 {% endblock %}

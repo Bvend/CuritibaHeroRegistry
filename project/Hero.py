@@ -16,6 +16,11 @@ class Hero(Person):
     def getListAtributes(self):
         return self.atributes
 
+    def getAdm(self):
+        return self.isadm
+
     def show(self, atribute):
         if atribute == "Tier: ":
             return self.tier
+        if atribute == "Eh adm: ":
+            return self.isadm
